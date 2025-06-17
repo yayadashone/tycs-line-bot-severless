@@ -9,7 +9,7 @@ def fetch_and_store_events():
     res = requests.get(url)
     soup = BeautifulSoup(res.text, "html.parser")
 
-    events = []
+    
     for item in soup.select(".event-item"):  # 根據實際 class 調整
         try:
             title = item.select_one(".title").text.strip()
@@ -33,4 +33,4 @@ def fetch_and_store_events():
             })
         except Exception as e:
             print(f"跳過錯誤項目: {e}")
-    return events
+    
