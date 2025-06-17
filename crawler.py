@@ -33,3 +33,4 @@ def fetch_and_store_events():
             })
         except Exception as e:
             print(f"跳過錯誤項目: {e}")
+    return events
