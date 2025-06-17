@@ -1,33 +1,49 @@
-from fastapi import FastAPI, Request
 import os
-import requests
-from dotenv import load_dotenv
+from flask import Flask, request, abort
 
-load_dotenv()
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FollowEvent
 
-app = FastAPI()
+from google_sheet import add_user_if_not_exists
 
-LINE_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
+app = Flask(__name__)
 
-@app.post("/webhook")
-async def webhook(request: Request):
-    body = await request.json()
-    logging.info(body)
-    events = body.get("events", [])
-    for event in events:
-        if event["type"] == "follow":
-            user_id = event["source"]["userId"]
-            reply_token = event["replyToken"]
-            reply_message(reply_token, "歡迎加入 LINE 活動通知服務！")
-    return {"status": "ok"}
+# 初始化 LINE Bot API 與 Webhook Handler
+line_bot_api = LineBotApi(os.getenv('LINE_CHANNEL_ACCESS_TOKEN'))
+handler = WebhookHandler(os.getenv('LINE_CHANNEL_SECRET'))
 
-def reply_message(token, text):
-    headers = {
-        "Authorization": f"Bearer {LINE_TOKEN}",
-        "Content-Type": "application/json"
-    }
-    data = {
-        "replyToken": token,
-        "messages": [{"type": "text", "text": text}]
-    }
-    requests.post("https://api.line.me/v2/bot/message/reply", json=data, headers=headers)
+# 設定 Webhook 路由
+@app.route("/callback", methods=['POST'])
+def callback():
+    signature = request.headers.get('X-Line-Signature')
+    body = request.get_data(as_text=True)
+
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+
+    return 'OK'
+
+# 接收訊息事件
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text="您好，您已經成功加入桃園市晟崧休閒登山會活動通知機器人！敬請期待 ☺️")
+    )
+
+# 接收加入好友事件
+@handler.add(FollowEvent)
+def handle_follow(event):
+    user_id = event.source.user_id
+    add_user_if_not_exists(user_id)
+    line_bot_api.push_message(
+        user_id,
+        TextSendMessage(text="👋 歡迎加入桃園市晟崧休閒登山會活動推播服務！\n我們會在活動報名前一小時提醒您。")
+    )
+
+# 本地測試入口
+if __name__ == "__main__":
+    app.run(debug=True)
