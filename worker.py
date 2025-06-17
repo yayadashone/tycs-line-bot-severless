@@ -17,8 +17,8 @@ def notify():
     if messages:
         send_push("\\n\\n".join(messages))
 
-schedule.every().day.at("00:00").do(fetch_events)
-schedule.every().day.at("19:00").do(notify)
+schedule.every().day.at("19:00").do(fetch_events)
+schedule.every().day.at("19:30").do(notify)
 
 while True:
     schedule.run_pending()
