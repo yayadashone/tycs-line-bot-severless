@@ -2,6 +2,7 @@ import gspread
 import json
 import base64
 import os
+import gc
 from datetime import datetime
 from oauth2client.service_account import ServiceAccountCredentials
 
