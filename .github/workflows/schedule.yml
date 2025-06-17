@@ -1,6 +1,7 @@
 name: Scheduled Tasks for TYCS LINE Bot
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 10 * * *'  # 每天台灣時間 18:00 爬蟲 (UTC+0 14:00)
     - cron: '0 11 * * *'  # 每天台灣時間 19:00 推播 (UTC+0 11:00)
