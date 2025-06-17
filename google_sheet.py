@@ -1,6 +1,7 @@
 import gspread
 import json
 import base64
+import os
 from oauth2client.service_account import ServiceAccountCredentials
 
 def get_sheet():
