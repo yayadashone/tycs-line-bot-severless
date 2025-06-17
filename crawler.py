@@ -25,6 +25,9 @@ def fetch_and_store_events():
             reg_start_dt = datetime.strptime(reg_start, "%Y-%m-%d %H:%M")
             reg_end_dt = datetime.strptime(reg_end, "%Y-%m-%d %H:%M")
 
+            print(f"爬到活動: {title}, 出發日: {start_date}, 報名起: {reg_start}, 報名止: {reg_end}")
+
+
             append_event_if_not_exists({
                 "title": title,
                 "start_date": start_date_dt.strftime("%Y-%m-%d"),
