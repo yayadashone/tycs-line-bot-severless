@@ -8,10 +8,10 @@ def get_sheet():
     client = gspread.authorize(creds)
     return client.open("tycs-line-bot-severless LineMembers").worksheet("UserID")
 
-def add_user(user_id):
+def add_user_if_not_exists(user_id: str):
     sheet = get_sheet()
-    users = sheet.col_values(1)
-    if user_id not in users:
+    user_ids = sheet.col_values(1)
+    if user_id not in user_ids:
         sheet.append_row([user_id])
 
 def get_all_user_ids():
