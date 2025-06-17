@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from google_sheet import append_event_if_not_exists
 
-def fetch_events():
+def fetch_and_store_events():
     url = "https://www.tycs.com.tw/EventList"
     res = requests.get(url)
     soup = BeautifulSoup(res.text, "html.parser")
