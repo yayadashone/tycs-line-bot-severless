@@ -1,5 +1,8 @@
 fastapi
 uvicorn
+line-bot-sdk
 requests
 beautifulsoup4
-dotenv
+schedule
+gspread
+oauth2client
