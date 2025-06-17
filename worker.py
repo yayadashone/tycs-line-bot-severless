@@ -6,7 +6,7 @@ import sys
 
 def run_crawler():
     print("CRAWLER start...")
-    events = fetch_and_store_events()
+    fetch_and_store_events()
     # 這裡可以加入存到 Google Sheet 或其他處理
     print(f"CRAWLER completed.")
 
