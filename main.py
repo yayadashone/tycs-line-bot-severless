@@ -12,6 +12,7 @@ LINE_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
 @app.post("/webhook")
 async def webhook(request: Request):
     body = await request.json()
+    logging.info(body)
     events = body.get("events", [])
     for event in events:
         if event["type"] == "follow":
