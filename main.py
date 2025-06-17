@@ -15,6 +15,11 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(os.getenv('LINE_CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('LINE_CHANNEL_SECRET'))
 
+@app.route("/", methods=["GET"])
+def home():
+    print("Health check passed.")
+    return "OK", 200
+
 # 設定 Webhook 路由
 @app.route("/callback", methods=['POST'])
 def callback():
