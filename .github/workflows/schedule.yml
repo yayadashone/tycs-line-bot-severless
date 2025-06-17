@@ -22,7 +22,7 @@ jobs:
       - name: Run crawler script
         env:
           GOOGLE_CREDS_B64: ${{ secrets.GOOGLE_CREDS_B64 }}
-        run: python scheduler.py crawler
+        run: python worker.py crawler
 
   push-job:
     if: github.event.schedule == '0 11 * * *'
@@ -41,4 +41,4 @@ jobs:
         env:
           GOOGLE_CREDS_B64: ${{ secrets.GOOGLE_CREDS_B64 }}
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
-        run: python scheduler.py push
+        run: python worker.py push
