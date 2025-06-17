@@ -10,4 +10,5 @@ services:
     env: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python worker.py"
-    schedule: "@hourly"
+    schedule: "30 13 * * *"
+
