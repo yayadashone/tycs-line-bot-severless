@@ -2,7 +2,6 @@ import gspread
 import json
 import base64
 import os
-import gc
 from datetime import datetime
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -11,7 +10,7 @@ def get_sheet(sheet_name):
     creds_data = json.loads(base64.b64decode(os.getenv("GOOGLE_CREDS_B64")))
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_data, scope)
     client = gspread.authorize(creds)
-    sh = gc.open("tycs-line-bot-severless")
+    sh = client.open("tycs-line-bot-severless")
     return sh.worksheet(sheet_name)
 
 def add_user_if_not_exists(user_id: str):
