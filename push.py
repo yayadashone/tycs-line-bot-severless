@@ -5,9 +5,17 @@ from linebot import LineBotApi
 from linebot.models import TextSendMessage
 import os
 
-line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
+#line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
+
+
+def get_line_bot_api():
+    token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
+    if not token:
+        raise ValueError("LINE_CHANNEL_ACCESS_TOKEN is not set")
+    return LineBotApi(token)
 
 def push_today_events():
+    line_bot_api = get_line_bot_api()
     today = datetime.now().date()
     now = datetime.now()
     events = get_all_events()
