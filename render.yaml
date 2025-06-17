@@ -5,10 +5,13 @@ services:
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn main:app --bind 0.0.0.0:10000"
 
-  - type: worker
-    name: tycs-line-worker
-    env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python worker.py"
-    schedule: "30 13 * * *"
+  - type: cron
+    name: tycs-crawler
+    schedule: "*/5 * * * *"    # 台灣時間 08:00
+    command: "python worker.py crawler"
+
+  - type: cron
+    name: tycs-pusher
+    schedule: "0 14 * * *"   # 台灣時間 19:00
+    command: "python worker.py push"
 
