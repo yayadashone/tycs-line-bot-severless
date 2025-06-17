@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 from oauth2client.service_account import ServiceAccountCredentials
 
-def get_sheet():
+def get_sheet(sheet_name):
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
     creds_data = json.loads(base64.b64decode(os.getenv("GOOGLE_CREDS_B64")))
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_data, scope)
