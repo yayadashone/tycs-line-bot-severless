@@ -6,6 +6,8 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, FollowEvent
 
 from google_sheet import add_user_if_not_exists
+import logging
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
@@ -18,6 +20,7 @@ handler = WebhookHandler(os.getenv('LINE_CHANNEL_SECRET'))
 def callback():
     signature = request.headers.get('X-Line-Signature')
     body = request.get_data(as_text=True)
+    logging.info(f"Received body: {body}") 
 
     try:
         handler.handle(body, signature)
