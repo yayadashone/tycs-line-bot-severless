@@ -5,14 +5,21 @@ from linebot import LineBotApi
 from linebot.models import TextSendMessage
 import os
 
-#line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
-
-
 def get_line_bot_api():
     token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
+    print(f"✅ Token loaded, length: {len(token)}") 
     if not token:
         raise ValueError("LINE_CHANNEL_ACCESS_TOKEN is not set")
     return LineBotApi(token)
+
+def test_line_bot_api():
+    line_bot_api = get_line_bot_api()
+    test_user_id = "Ua5368ac0242910aa78cf98934db96421"  # 可先硬編寫死做測試
+    try:
+        line_bot_api.push_message(test_user_id, TextSendMessage(text="測試訊息"))
+        print("✅ 測試訊息發送成功")
+    except Exception as e:
+        print(f"❌ 測試訊息發送失敗: {e}")
 
 def push_today_events():
     line_bot_api = get_line_bot_api()
