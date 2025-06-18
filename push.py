@@ -24,7 +24,7 @@ def test_line_bot_api():
 def push_today_events():
     line_bot_api = get_line_bot_api()
     #today = datetime.now().date()
-    
+    test_line_bot_api()  # 測試 LINE Bot API 是否正常工作
     today = datetime.strptime("2025/07/12", "%Y/%m/%d").date()  # For testing, set a specific date
     #today = datetime.strptime("2023/10/01", "%Y/%m/%d").date()  # For testing, set a specific date
     #today = datetime.strptime("2023/10/01", "%Y/%m/%d").date()  # For testing, set a specific date
