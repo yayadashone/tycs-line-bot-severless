@@ -1,12 +1,12 @@
 # worker.py
-from crawler import fetch_and_store_events
+from crawler import crawl_events
 from push import push_today_events
 import time
 import sys
 
 def run_crawler():
     print("CRAWLER start...")
-    fetch_and_store_events()
+    crawl_events()
     # 這裡可以加入存到 Google Sheet 或其他處理
     print(f"CRAWLER completed.")
 

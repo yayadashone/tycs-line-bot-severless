@@ -61,7 +61,7 @@ def crawl_events(pages=3):
                 break
 
     driver.quit()
-
+    
     # 返回抓取到的活動列表
     print(f"共抓取到 {len(event_list)} 個活動")
     # return event_list
