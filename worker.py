@@ -1,13 +1,14 @@
 # worker.py
 from crawler import crawl_events
 from push import push_today_events
+from google_sheet import append_event_if_not_exists, get_sheet
 import time
 import sys
 
 def run_crawler():
     print("CRAWLER start...")
-    crawl_events()
-    # 這裡可以加入存到 Google Sheet 或其他處理
+    event_list = crawl_events(pages=3)
+    append_event_if_not_exists(event_list)
     print(f"CRAWLER completed.")
 
 def run_push():

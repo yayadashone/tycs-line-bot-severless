@@ -46,12 +46,13 @@ def crawl_events(pages=3):
 
                 event_list.append(event_data)
                 # 將抓取到的活動資料存入 Google Sheet
-                append_event_if_not_exists(event_data)
+                #append_event_if_not_exists(event_data)
             except Exception as e:
                 print("錯誤:", e)
                 continue
 
     driver.quit()
+    return event_list
     
     # 返回抓取到的活動列表
     print(f"共抓取到 {len(event_list)} 個活動")
