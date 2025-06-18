@@ -12,25 +12,17 @@ def get_line_bot_api():
         raise ValueError("LINE_CHANNEL_ACCESS_TOKEN is not set")
     return LineBotApi(token)
 
-def test_line_bot_api():
-    line_bot_api = get_line_bot_api()
-    test_user_id = "Ua5368ac0242910aa78cf98934db96421"  # 可先硬編寫死做測試
-    try:
-        line_bot_api.push_message(test_user_id, TextSendMessage(text="測試訊息"))
-        print("✅ 測試訊息發送成功")
-    except Exception as e:
-        print(f"❌ 測試訊息發送失敗: {e}")
 
 def push_today_events():
     line_bot_api = get_line_bot_api()
     #today = datetime.now().date()
-    test_line_bot_api()  # 測試 LINE Bot API 是否正常工作
     today = datetime.strptime("2025/07/12", "%Y/%m/%d").date()  # For testing, set a specific date
     #today = datetime.strptime("2023/10/01", "%Y/%m/%d").date()  # For testing, set a specific date
     #today = datetime.strptime("2023/10/01", "%Y/%m/%d").date()  # For testing, set a specific date
     now = datetime.now()
     events = get_all_events()
-    
+    print(events) #for debugging
+
     for row in events:
         title = row["title"]
         key = row["key"]
@@ -65,6 +57,7 @@ def send_to_all_users(message):
     from google_sheet import get_all_user_ids
     line_bot_api = get_line_bot_api()
     user_ids = get_all_user_ids()
+    print(f"共 {len(user_ids)} 位使用者將收到訊息")
     for uid in user_ids:
         try:
             print(f"發送給 {uid} 的訊息：{message}")
