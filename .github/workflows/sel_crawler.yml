@@ -2,11 +2,12 @@ name: Run Selenium Crawler with WebDriver Manager
 
 on:
   schedule:
-    - cron: "0 9 * * *" # 每天 UTC 9 點執行
+    - cron: '0 10 * * *'  # 每天台灣時間 18:00 推播 (UTC+0 10:00)
   workflow_dispatch:
 
 jobs:
-  selenium_crawl:
+  selenium_crawl-job:
+    if: github.event.schedule == '0 10 * * *'
     runs-on: ubuntu-latest
 
     steps:
