@@ -18,8 +18,12 @@ def crawl_events(pages=3):
 
     event_list = []
 
-    for page in range(pages):
-        print(f"抓取第 {page+1} 頁活動")
+    for page in range(1,pages+1):
+        
+        url = f'https://www.tycs.com.tw/EventList/{page}'
+        print(f"抓取第 {page} 頁活動，網址：{url}")
+        driver.get(url)
+        time.sleep(3)
 
         # 取得所有活動 li 元素
         events = driver.find_elements(By.CSS_SELECTOR, 'ul.event-list li')
