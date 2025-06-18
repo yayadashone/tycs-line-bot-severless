@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import time
-from google_sheet import append_event_if_not_exists
+from google_sheet import append_event_if_not_exists, get_sheet
 
 def crawl_events(pages=3):
     options = Options()
@@ -64,9 +64,3 @@ def crawl_events(pages=3):
     
     # 返回抓取到的活動列表
     print(f"共抓取到 {len(event_list)} 個活動")
-    # return event_list
-
-# 範例用法：
-# events = crawl_events(pages=3)
-# for e in events:
-#     print(e)
