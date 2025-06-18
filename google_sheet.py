@@ -56,9 +56,9 @@ def append_event_if_not_exists(event_list):
             except Exception:
                 pass
 
-            reg_start = datetime.strptime(reg_start, "%Y/%m/%d").date()
-            reg_end = datetime.strptime(reg_end, "%Y/%m/%d").date()
-            cancel_end = datetime.strptime(cancel_end, "%Y/%m/%d").date()
+            reg_start = datetime.strptime(reg_start, "%Y-%m-%d").date()
+            reg_end = datetime.strptime(reg_end, "%Y-%m-%d").date()
+            cancel_end = datetime.strptime(cancel_end, "%Y-%m-%d").date()
 
             # 新增一列
             sheet.append_row([
