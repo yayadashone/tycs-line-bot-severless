@@ -1,33 +1,40 @@
-name: Scheduled Tasks for TYCS LINE Bot
+name: Scheduled Crawler and Push
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 10 * * *'  # 每天台灣時間 18:00 爬蟲 (UTC+0 14:00)
-    - cron: '0 11 * * *'  # 每天台灣時間 19:00 推播 (UTC+0 11:00)
+    #- cron: '0 10 * * *'  # 每天台灣時間 18:00 推播 (UTC+0 10:00)
+    #- cron: '0 11 * * *'  # 每天台灣時間 19:00 推播 (UTC+0 11:00)
 
 jobs:
-  crawl-job:
+  selenium_crawl-job:
     if: github.event.schedule == '0 10 * * *'
     name: Run Crawler
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Python
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.9"
+
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
+
       - name: Run crawler script
         env:
           GOOGLE_CREDS_B64: ${{ secrets.GOOGLE_CREDS_B64 }}
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
         run: python worker.py crawler
 
   push-job:
     if: github.event.schedule == '0 11 * * *'
-    name: Run Push Notification
+    name: Run Push
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,8 +43,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
       - name: Run push script
         env:
           GOOGLE_CREDS_B64: ${{ secrets.GOOGLE_CREDS_B64 }}
