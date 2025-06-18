@@ -39,7 +39,10 @@ def callback():
 def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text="您好，感謝您的訊息！\n\n很抱歉，本帳號無法個別回覆用戶的訊息。\n敬請期待我們下次發送的內容喔!")
+        TextSendMessage(text="您好，感謝您的訊息！\n\n很抱歉，本帳號無法個別回覆用戶的訊息。\n"
+                        "敬請期待我們下次發送的內容喔!\n"
+                        "此line服務由晟崧山友自行創立善意自動推播活動通知，並非官方服務且無營利服務。\n"
+                        "如推播活動資訊有任何問題，僅以桃園市晟崧休閒登山會網站內容為主\n")
     )
 
 # 接收加入好友事件
@@ -50,7 +53,7 @@ def handle_follow(event):
     line_bot_api.push_message(
         user_id,
         TextSendMessage(text="👋 歡迎加入桃園市晟崧休閒登山會活動推播服務！\n"
-                            "此line服務由晟崧山友自行創立以善意推播活動通知，並非官方服務。\n"
+                            "此line服務由晟崧山友自行創立善意推播活動通知，並非官方服務且無營利服務。\n"
                             "如推播活動資訊有任何問題，僅以桃園市晟崧休閒登山會網站內容為主\n")
     )
 
