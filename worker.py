@@ -7,7 +7,7 @@ import sys
 
 def run_crawler():
     print("CRAWLER start...")
-    event_list = crawl_events(pages=3)
+    event_list = crawl_events()
     append_event_if_not_exists(event_list)
     print(f"CRAWLER completed.")
 

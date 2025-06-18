@@ -39,8 +39,8 @@ def append_event_if_not_exists(event_list):
         start_date_val = datetime.strptime(start_date, "%Y/%m/%d").date()
 
         if start_date_val < today:
-                print(f"跳過已過期活動: {title} ({start_date})")
-                continue
+            print(f"跳過已過期活動: {title} ({start_date})")
+            continue
         
         level = event.get('level', '')
         # key 用事件名稱 + 出發時間
@@ -69,6 +69,7 @@ def append_event_if_not_exists(event_list):
                 "","" # pushed_start, pushed_end
             ])
             existing_keys.add(key) 
+    print(f"共新增 {len(existing_keys)} 個活動")
 
 
 
