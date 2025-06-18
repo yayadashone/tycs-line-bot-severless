@@ -33,19 +33,19 @@ def push_today_events():
         push_end = row["pushed_end"]
 
         # 推播：報名起始前 1 小時
-        if reg_start.date() == today and not push_start:
+        if reg_start == today and not push_start:
             message = f"📣 活動通知\n活動：{title}\n出發日期：{start_date}\n報名起始：{reg_start.strftime('%Y-%m-%d 20:00')}"
             send_to_all_users(message)
             update_push_status(key, 'start')
 
         # 推播：報名截止前 1 小時
-        if reg_end.date() == today and not push_end:
+        if reg_end == today and not push_end:
             message = f"⏰ 報名截止提醒\n活動：{title}\n出發日期：{start_date}\n報名截止：{reg_end.strftime('%Y-%m-%d 20:00')}"
             send_to_all_users(message)
             update_push_status(key, 'end')
 
         # 推播：取消截止前 1 小時
-        if not cancel_end and cancel_end.date() == today:
+        if not cancel_end and cancel_end == today:
             message = f"🚨 取消報名截止提醒\n活動：{title}\n出發日期：{start_date}\n取消截止：{cancel_end.strftime('%Y-%m-%d 20:00')}"
             send_to_all_users(message)
             update_push_status(key, 'cancel')
