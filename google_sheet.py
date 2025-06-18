@@ -36,6 +36,7 @@ def append_event_if_not_exists(event_list):
         # 取出事件名稱跟出發時間（去掉前面的標籤）
         title = event['name']
         start_date = event['date_event'].replace('出發時間 : ', '').strip()
+        start_date = datetime.strptime(start_date, "%Y/%m/%d").date()
 
         if start_date < today:
                 print(f"跳過已過期活動: {title} ({start_date})")
@@ -54,8 +55,12 @@ def append_event_if_not_exists(event_list):
 
             except Exception:
                 pass
-                
-                # 新增一列
+
+            reg_start = datetime.strptime(reg_start, "%Y/%m/%d").date()
+            reg_end = datetime.strptime(reg_end, "%Y/%m/%d").date()
+            cancel_end = datetime.strptime(cancel_end, "%Y/%m/%d").date()
+
+            # 新增一列
             sheet.append_row([
                 key,
                 title,
