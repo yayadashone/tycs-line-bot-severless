@@ -29,38 +29,37 @@ def get_all_user_ids():
 # 活動相關
 def append_event_if_not_exists(event):
     sheet = get_sheet("Events")
+    existing_keys = sheet.col_values(1)
     
-    for event in event:
-        existing_keys = sheet.col_values(1)
-
+        
         # 取出事件名稱跟出發時間（去掉前面的標籤）
-        title = event['name']
-        start_date = event['date_event'].replace('出發時間 : ', '').strip()
-        level = event.get('level', '')
+    title = event['name']
+    start_date = event['date_event'].replace('出發時間 : ', '').strip()
+    level = event.get('level', '')
         # key 用事件名稱 + 出發時間
-        key = f"{title}-{start_date}"
-        if key not in existing_keys:
+    key = f"{title}-{start_date}"
+    if key not in existing_keys:
             # 拆分報名時間成開始跟結束時間，格式是 "報名時間 : yyyy-mm-dd hh:mm ~ yyyy-mm-dd hh:mm"
-            reg_start, reg_end , cancel_end= "", "", ""
-            try:
-                reg_period = event['date_apply'].replace('報名時間 : ', '').strip()
-                reg_start, reg_end = [s.strip()[:10] for s in reg_period.split('~')]
-                cancel_end = event['date_cancel'].split(':')[1].strip().replace(' 前', '')[:10]
+        reg_start, reg_end , cancel_end= "", "", ""
+        try:
+            reg_period = event['date_apply'].replace('報名時間 : ', '').strip()
+            reg_start, reg_end = [s.strip()[:10] for s in reg_period.split('~')]
+            cancel_end = event['date_cancel'].split(':')[1].strip().replace(' 前', '')[:10]
 
-            except Exception:
-                pass
+        except Exception:
+            pass
             
             # 新增一列
-            sheet.append_row([
-                key,
-                title,
-                start_date,
-                level,
-                reg_start,
-                reg_end,
-                cancel_end,
-                "","" # pushed_start, pushed_end
-            ])
+        sheet.append_row([
+            key,
+            title,
+            start_date,
+            level,
+            reg_start,
+            reg_end,
+            cancel_end,
+            "","" # pushed_start, pushed_end
+        ])
 
 
 
