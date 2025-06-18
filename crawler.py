@@ -19,7 +19,7 @@ def crawl_events(pages=3):
     event_list = []
 
     for page in range(1,pages+1):
-        
+
         url = f'https://www.tycs.com.tw/EventList/{page}'
         print(f"抓取第 {page} 頁活動，網址：{url}")
         driver.get(url)
@@ -50,19 +50,6 @@ def crawl_events(pages=3):
             except Exception as e:
                 print("錯誤:", e)
                 continue
-        
-        # 點下一頁按鈕，除非是最後一頁
-        if page < pages - 1:
-            try:
-                next_btn = driver.find_element(By.CSS_SELECTOR, 'a.next')
-                if "disabled" in next_btn.get_attribute("class"):
-                    print("沒有下一頁了，結束抓取")
-                    break
-                next_btn.click()
-                time.sleep(3)
-            except Exception as e:
-                print("找不到下一頁按鈕或錯誤:", e)
-                break
 
     driver.quit()
     
