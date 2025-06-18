@@ -30,11 +30,17 @@ def get_all_user_ids():
 def append_event_if_not_exists(event_list):
     sheet = get_sheet("Events")
     existing_keys = set(sheet.col_values(1))
+    today = datetime.today().date()
     
     for event in event_list:   
         # 取出事件名稱跟出發時間（去掉前面的標籤）
         title = event['name']
         start_date = event['date_event'].replace('出發時間 : ', '').strip()
+
+        if start_date < today:
+                print(f"跳過已過期活動: {title} ({start_date})")
+                continue
+        
         level = event.get('level', '')
         # key 用事件名稱 + 出發時間
         key = f"{title}-{start_date}"
