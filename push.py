@@ -49,7 +49,7 @@ def push_today_events():
             update_push_status(key, 'end')
 
         # 推播：取消截止前 1 小時
-        if not cancel_end and cancel_end == today:
+        if not row.get("push_cancel") and cancel_end == today:
             message = f"🚨 取消報名截止提醒\n活動：{title}\n出發日期：{start_date}\n取消截止：{cancel_end.strftime('%Y-%m-%d 20:00')}"
             send_to_all_users(message)
             update_push_status(key, 'cancel')
@@ -60,6 +60,7 @@ def send_to_all_users(message):
     user_ids = get_all_user_ids()
     for uid in user_ids:
         try:
+            print(f"發送給 {uid} 的訊息：{message}")
             line_bot_api.push_message(uid, TextSendMessage(text=message))
         except Exception as e:
             print(f"發送給 {uid} 失敗：{e}")
