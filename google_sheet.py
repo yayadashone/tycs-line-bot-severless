@@ -82,21 +82,49 @@ def get_all_events():
             "key": r["key"],
             "title": r["title"],
             "start_date": r["start_date"],
+            "level": r["level"],
             "reg_start": r["reg_start"],
             "reg_end": r["reg_end"],
-            "pushed_start": r["pushed_start"] != "",
-            "pushed_end": r["pushed_end"] != "",
+            "cancel_end": r["cancel_end"],
+            # pushed_start, pushed_end 會是空字串或時間字串
+            "pushed_start": r["pushed_start"],
+            "pushed_end": r["pushed_end"]
         })
     return result
 
-def update_push_status(key, which):  # which = "start" or "end"
+
+def update_push_status(key, which):  # which = "start", "end", "cancel"
     sheet = get_sheet("Events")
     records = sheet.get_all_values()
+
+    if not records or len(records) < 1:
+        print("Google Sheet 無資料")
+        return
+
+    headers = records[0]
+    col_name_map = {
+        "start": "pushed_start",
+        "end": "pushed_end",
+        "cancel": "pushed_cancel"  # 照你提供的拼字
+    }
+
+    if which not in col_name_map:
+        raise ValueError("which 必須是 'start', 'end' 或 'cancel'")
+
+    col_name = col_name_map[which]
+
+    try:
+        col_index = headers.index(col_name) + 1  # Google Sheets API 是從 1 開始
+    except ValueError:
+        raise ValueError(f"Google Sheet 找不到欄位名稱: {col_name}")
+
     for i, row in enumerate(records):
         if i == 0:
-            continue  # skip header
+            continue  # 跳過標題列
         if row[0] == key:
-            col = 6 if which == "start" else 7
-            sheet.update_cell(i+1, col, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            sheet.update_cell(i + 1, col_index, timestamp)
+            print(f"已更新 {which} 推播時間：{timestamp}")
             break
+
 

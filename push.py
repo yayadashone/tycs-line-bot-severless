@@ -1,6 +1,6 @@
 # push.py
 from datetime import datetime, timedelta
-from google_sheet import get_all_events, update_push_status
+from google_sheet import get_all_events, update_push_status, get_sheet, get_all_user_ids 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 import os
@@ -22,29 +22,41 @@ def push_today_events():
     
     for row in events:
         title = row["title"]
-        start_date = datetime.strptime(row["start_date"], "%Y-%m-%d").date()
-        reg_start = datetime.strptime(row["reg_start"], "%Y-%m-%d %H:%M")
-        reg_end = datetime.strptime(row["reg_end"], "%Y-%m-%d %H:%M")
+        key = row["key"]
+
+        #str to datetime
+        start_date = datetime.strptime(row["start_date"], "%Y/%m/%d").date()
+        cancel_end = datetime.strptime(row["cancel_end"], "%Y-%m-%d").date() if row["cancel_end"] else None
+        reg_start = datetime.strptime(row["reg_start"], "%Y-%m-%d").date() if row["reg_start"] else None
+        reg_end = datetime.strptime(row["reg_end"], "%Y-%m-%d").date() if row["reg_end"] else None
         push_start = row["pushed_start"]
         push_end = row["pushed_end"]
 
         # 推播：報名起始前 1 小時
         if reg_start.date() == today and not push_start:
             if now >= reg_start - timedelta(hours=1):
-                message = f"📣 活動通知\n活動：{title}\n出發日期：{start_date}\n報名起始：{reg_start.strftime('%Y-%m-%d %H:%M')}"
+                message = f"📣 活動通知\n活動：{title}\n出發日期：{start_date}\n報名起始：{reg_start.strftime('%Y-%m-%d 20:00')}"
                 send_to_all_users(message)
-                update_push_status(title, 'start')
+                update_push_status(key, 'start')
 
         # 推播：報名截止前 1 小時
         if reg_end.date() == today and not push_end:
             if now >= reg_end - timedelta(hours=1):
-                message = f"⏰ 報名截止提醒\n活動：{title}\n出發日期：{start_date}\n報名截止：{reg_end.strftime('%Y-%m-%d %H:%M')}"
+                message = f"⏰ 報名截止提醒\n活動：{title}\n出發日期：{start_date}\n報名截止：{reg_end.strftime('%Y-%m-%d 20:00')}"
                 send_to_all_users(message)
-                update_push_status(title, 'end')
+                update_push_status(key, 'end')
+
+        # 推播：取消截止前 1 小時
+        if cancel_end and cancel_end.date() == today:
+            if now >= cancel_end - timedelta(hours=1):
+                message = f"🚨 取消報名截止提醒\n活動：{title}\n出發日期：{start_date}\n取消截止：{cancel_end.strftime('%Y-%m-%d 20:00')}"
+                send_to_all_users(message)
+                update_push_status(key, 'cancel')
 
 def send_to_all_users(message):
-    from google_sheet import get_all_users
-    user_ids = get_all_users()
+    from google_sheet import get_all_user_ids
+    line_bot_api = get_line_bot_api()
+    user_ids = get_all_user_ids()
     for uid in user_ids:
         try:
             line_bot_api.push_message(uid, TextSendMessage(text=message))
