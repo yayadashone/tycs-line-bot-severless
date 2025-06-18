@@ -16,11 +16,8 @@ def get_line_bot_api():
 
 def push_today_events():
     line_bot_api = get_line_bot_api()
-    #today = datetime.now().date()
-    today = datetime.strptime("2025-06-20", "%Y-%m-%d").date()  # For testing, set a specific date
-    #today = datetime.strptime("2023/10/01", "%Y/%m/%d").date()  # For testing, set a specific date
-    #today = datetime.strptime("2023/10/01", "%Y/%m/%d").date()  # For testing, set a specific date
-    now = datetime.now()
+    today = datetime.now().date()
+    print(f"今天日期：{today}")
     events = get_all_events()
     print(events) #for debugging
 
