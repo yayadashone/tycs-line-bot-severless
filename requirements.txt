@@ -8,3 +8,5 @@ beautifulsoup4
 schedule
 gspread
 oauth2client
+selenium>=4.0.0
+webdriver-manager

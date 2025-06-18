@@ -1,39 +1,16 @@
-# crawler.py
-import requests
-from bs4 import BeautifulSoup
-from datetime import datetime
-from google_sheet import append_event_if_not_exists
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
-def fetch_and_store_events():
-    url = "https://www.tycs.com.tw/EventList"
-    res = requests.get(url)
-    soup = BeautifulSoup(res.text, "html.parser")
+options = Options()
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 
-    
-    for item in soup.select(".event-item"):  # 根據實際 class 調整
-        try:
-            title = item.select_one(".title").text.strip()
-            start_date = item.select_one(".start-date").text.strip()
-            reg_start = item.select_one(".reg-start").text.strip()
-            reg_end = item.select_one(".reg-end").text.strip()
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+driver.get('https://www.tycs.com.tw/EventList')
 
-            # 日期格式轉換
-            start_date_dt = datetime.strptime(start_date, "%Y-%m-%d")
-            if start_date_dt < datetime.now():
-                continue  # 跳過已過期活動
+print(driver.title)
 
-            reg_start_dt = datetime.strptime(reg_start, "%Y-%m-%d %H:%M")
-            reg_end_dt = datetime.strptime(reg_end, "%Y-%m-%d %H:%M")
-
-            print(f"爬到活動: {title}, 出發日: {start_date}, 報名起: {reg_start}, 報名止: {reg_end}")
-
-
-            append_event_if_not_exists({
-                "title": title,
-                "start_date": start_date_dt.strftime("%Y-%m-%d"),
-                "reg_start": reg_start_dt.strftime("%Y-%m-%d %H:%M"),
-                "reg_end": reg_end_dt.strftime("%Y-%m-%d %H:%M"),
-            })
-        except Exception as e:
-            print(f"跳過錯誤項目: {e}")
-    
+driver.quit()
