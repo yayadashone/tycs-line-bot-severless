@@ -34,18 +34,15 @@ def callback():
 
     return 'OK'
 
-# 接收訊息事件
-#@handler.add(MessageEvent, message=TextMessage)
-#def handle_message(event):
-#    line_bot_api.reply_message(
-#       event.reply_token,
-#        TextSendMessage(text="您好，感謝您的訊息！\n\n很抱歉，本帳號無法個別回覆用戶的訊息。\n"
-#                        "敬請期待我們下次發送的內容喔!\n"
-#                        "此line服務由晟崧山友自行創立善意自動推播活動通知，並非官方服務且無營利服務。\n"
-#                        "如推播活動資訊有任何問題，僅以桃園市晟崧休閒登山會網站內容為主\n")
-#    )
+# 接收訊息事件加入user_id到 Google Sheet
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    logging.info(f"Received message from {event.source.user_id}: {event.message.text}")
+    # 當用戶發送訊息時，將其加入 Google Sheet
+    user_id = event.source.user_id
+    add_user_if_not_exists(user_id)
 
-#接收加入好友事件
+#接收加入好友事件加入user_id到 Google Sheet
 @handler.add(FollowEvent)
 def handle_follow(event):
     logging.info(f"New follower: {event.source.user_id}")
