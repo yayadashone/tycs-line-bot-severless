@@ -2,12 +2,12 @@ name: Run Push Notification Daily
 
 on:
   schedule:
-    - cron: '0 11 * * *'  # 台灣時間 19:00
+    - cron: '0 10 * * *'  # 台灣時間 18:00
   workflow_dispatch:
 
 jobs:
   push-job:
-    if: github.event.schedule == '0 11 * * *'
+    if: github.event.schedule == '0 10 * * *'
     name: Run Push
     runs-on: ubuntu-latest
     steps:
