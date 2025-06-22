@@ -33,7 +33,7 @@ def push_today_events():
 
         # 推播：報名起始前 1 小時
         if reg_start == today and not push_start:
-            message = (f"📣 活動通知\n"
+            message = (f"📣 今晚報名活動通知\n"
                         f"活動：{title}\n"
                         f"出發日期：{start_date}\n"
                         f"報名起始：{reg_start.strftime('%Y-%m-%d 20:00')}\n"
@@ -43,7 +43,7 @@ def push_today_events():
 
         # 推播：報名截止前 1 小時
         if reg_end == today and not push_end:
-            message = (f"⏰ 報名截止提醒\n"
+            message = (f"⏰ 今晚報名截止提醒\n"
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"報名截止：{reg_end.strftime('%Y-%m-%d 20:00')}\n"
@@ -53,7 +53,7 @@ def push_today_events():
 
         # 推播：取消截止前 1 小時
         if not row.get("push_cancel") and cancel_end == today:
-            message = (f"🚨 取消報名截止提醒\n"
+            message = (f"🚨 今晚取消報名截止提醒\n"
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"取消截止：{cancel_end.strftime('%Y-%m-%d 20:00')}\n"
