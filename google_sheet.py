@@ -26,8 +26,39 @@ def get_all_user_ids():
     return sheet.col_values(1)[1:]
 
 
+def remove_expired_events():
+    sheet = get_sheet("Events")
+    records = sheet.get_all_values()
+
+    header = records[0]
+    rows = records[1:]
+    today = datetime.today().date()
+
+    # 找出出發日期欄位索引
+    try:
+        start_date_idx = header.index("start_date")
+    except ValueError:
+        print("❌ 找不到 'start_date' 欄位")
+        return
+
+    # 由後往前刪除，避免索引錯亂
+    for i in reversed(range(len(rows))):
+        row = rows[i]
+        try:
+            date_str = row[start_date_idx]
+            event_date = datetime.strptime(date_str, "%Y/%m/%d").date()
+            if event_date < today:
+                sheet.delete_row(i + 2)  # 加 2：因為有標題列（第 1 列）
+                print(f"🗑️ 刪除過期活動：{row[1]}（{date_str}）")
+        except Exception as e:
+            print(f"⚠️ 無法處理第 {i+2} 列：{e}")
+
+
+
 # 活動相關
 def append_event_if_not_exists(event_list):
+    
+    remove_expired_events() 
     sheet = get_sheet("Events")
     existing_keys = set(sheet.col_values(1))
     today = datetime.today().date()
