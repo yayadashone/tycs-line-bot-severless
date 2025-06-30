@@ -48,7 +48,7 @@ def remove_expired_events():
             date_str = row[start_date_idx]
             event_date = datetime.strptime(date_str, "%Y/%m/%d").date()
             if event_date < today:
-                sheet.delete_row(i + 2)  # 加 2：因為有標題列（第 1 列）
+                sheet.delete_rows(i + 2)  # 加 2：因為有標題列（第 1 列）
                 print(f"🗑️ 刪除過期活動：{row[1]}（{date_str}）")
         except Exception as e:
             print(f"⚠️ 無法處理第 {i+2} 列：{e}")
