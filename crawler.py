@@ -35,13 +35,15 @@ def crawl_events(pages=5):
                 date_event = event.find_element(By.CLASS_NAME, 'date-event').text.strip()
                 date_apply = event.find_element(By.CLASS_NAME, 'date-apply').text.strip().replace('\n', ' ')
                 date_cancel = event.find_element(By.CLASS_NAME, 'date-cancel').text.strip()
+                link = event.find_element(By.CSS_SELECTOR, '.event-title a').get_attribute('href')
 
                 event_data = {
                     "level": level,
                     "name": name,
                     "date_event": date_event,
                     "date_apply": date_apply,
-                    "date_cancel": date_cancel
+                    "date_cancel": date_cancel,
+                    "link": link
                 }
 
                 event_list.append(event_data)

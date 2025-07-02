@@ -83,6 +83,7 @@ def append_event_if_not_exists(event_list):
                 reg_period = event['date_apply'].replace('報名時間 : ', '').strip()
                 reg_start, reg_end = [s.strip()[:10] for s in reg_period.split('~')]
                 cancel_end = event['date_cancel'].split(':')[1].strip().replace(' 前', '')[:10]
+                link = event['link']
 
             except Exception:
                 pass
@@ -97,7 +98,8 @@ def append_event_if_not_exists(event_list):
                 reg_start,
                 reg_end,
                 cancel_end,
-                "","" # pushed_start, pushed_end
+                "","", # pushed_start, pushed_end
+                link
             ])
             existing_keys.add(key) 
     print(f"共新增 {len(existing_keys)} 個活動")
@@ -119,7 +121,8 @@ def get_all_events():
             "cancel_end": r["cancel_end"],
             # pushed_start, pushed_end 會是空字串或時間字串
             "pushed_start": r["pushed_start"],
-            "pushed_end": r["pushed_end"]
+            "pushed_end": r["pushed_end"],
+            "link": r["link"]
         })
     return result
 
