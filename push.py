@@ -41,14 +41,15 @@ def push_today_events():
             send_to_all_users(message)
             update_push_status(key, 'start')
 
-        # 推播：報名截止前 1 小時
+        # 推播：報名截止前 1 小時 
+        # 2025/7/20後 暫停發送此訊息, 免費額度已滿
         if reg_end == today and not push_end:
             message = (f"⏰ 今晚報名截止提醒\n"
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"報名截止：{reg_end.strftime('%Y-%m-%d 20:00')}\n"
                        f"👉 活動連結：{tycs_url}")
-            send_to_all_users(message)
+            #send_to_all_users(message)
             update_push_status(key, 'end')
 
         # 推播：取消截止前 1 小時
