@@ -18,11 +18,14 @@ def push_today_events():
     line_bot_api = get_line_bot_api()
     today = datetime.now().date()
     events = get_all_events()
-    tycs_url = "https://www.tycs.com.tw/EventList"
+    tycs_url = "https://www.tycs.com.tw"
     for row in events:
         title = row["title"]
         key = row["key"]
-        link = row["link"]
+
+
+        event_url = tycs_url+row["event_url"]
+
 
         #str to datetime
         start_date = datetime.strptime(row["start_date"], "%Y/%m/%d").date()
@@ -38,18 +41,23 @@ def push_today_events():
                         f"活動：{title}\n"
                         f"出發日期：{start_date}\n"
                         f"報名起始：{reg_start.strftime('%Y-%m-%d 20:00')}\n"
-                        f"👉 活動連結：{link}")
+
+                        f"👉 活動連結：{event_url}")
+
             send_to_all_users(message)
             update_push_status(key, 'start')
 
-        # 推播：報名截止前 1 小時
+        # 推播：報名截止前 1 小時 
+        # 2025/7/20後 暫停發送此訊息, 免費額度已滿
         if reg_end == today and not push_end:
             message = (f"⏰ 今晚報名截止提醒\n"
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"報名截止：{reg_end.strftime('%Y-%m-%d 20:00')}\n"
-                       f"👉 活動連結：{link}")
-            send_to_all_users(message)
+
+                       f"👉 活動連結：{event_url}")
+            #send_to_all_users(message)
+
             update_push_status(key, 'end')
 
         # 推播：取消截止前 1 小時
@@ -58,7 +66,9 @@ def push_today_events():
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"取消截止：{cancel_end.strftime('%Y-%m-%d 20:00')}\n"
-                       f"👉 活動連結：{link}")
+
+                       f"👉 活動連結：{event_url}")
+
             send_to_all_users(message)
             update_push_status(key, 'cancel')
 

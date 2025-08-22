@@ -66,6 +66,7 @@ def append_event_if_not_exists(event_list):
     for event in event_list:   
         # 取出事件名稱跟出發時間（去掉前面的標籤）
         title = event['name']
+        event_url = event['event_url']
         start_date = event['date_event'].replace('出發時間 : ', '').strip()
         start_date_val = datetime.strptime(start_date, "%Y/%m/%d").date()
 
@@ -83,7 +84,10 @@ def append_event_if_not_exists(event_list):
                 reg_period = event['date_apply'].replace('報名時間 : ', '').strip()
                 reg_start, reg_end = [s.strip()[:10] for s in reg_period.split('~')]
                 cancel_end = event['date_cancel'].split(':')[1].strip().replace(' 前', '')[:10]
-                link = event['link']
+
+
+                event_url = event['event_url']
+
 
             except Exception:
                 pass

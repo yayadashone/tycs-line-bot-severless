@@ -35,7 +35,11 @@ def crawl_events(pages=5):
                 date_event = event.find_element(By.CLASS_NAME, 'date-event').text.strip()
                 date_apply = event.find_element(By.CLASS_NAME, 'date-apply').text.strip().replace('\n', ' ')
                 date_cancel = event.find_element(By.CLASS_NAME, 'date-cancel').text.strip()
-                link = event.find_element(By.CSS_SELECTOR, '.event-title a').get_attribute('href')
+
+                event_url = event.find_element(By.CLASS_NAME, 'event-info').get_attribute('href').strip()
+                #print(f"活動名稱: {name}, 活動日期: {date_event}, 報名日期: {date_apply}, 取消日期: {date_cancel}, 活動網址: {event_url}")
+
+
 
                 event_data = {
                     "level": level,
@@ -43,7 +47,9 @@ def crawl_events(pages=5):
                     "date_event": date_event,
                     "date_apply": date_apply,
                     "date_cancel": date_cancel,
-                    "link": link
+
+                    "event_url": event_url
+
                 }
 
                 event_list.append(event_data)
@@ -58,4 +64,3 @@ def crawl_events(pages=5):
     #print(f"共抓取到 {len(event_list)} 個活動")
     return event_list
     
-
