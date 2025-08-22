@@ -18,10 +18,11 @@ def push_today_events():
     line_bot_api = get_line_bot_api()
     today = datetime.now().date()
     events = get_all_events()
-    tycs_url = "https://www.tycs.com.tw/EventList"
+    tycs_url = "https://www.tycs.com.tw"
     for row in events:
         title = row["title"]
         key = row["key"]
+        event_url = tycs_url+row["event_url"]
 
         #str to datetime
         start_date = datetime.strptime(row["start_date"], "%Y/%m/%d").date()
@@ -37,7 +38,7 @@ def push_today_events():
                         f"活動：{title}\n"
                         f"出發日期：{start_date}\n"
                         f"報名起始：{reg_start.strftime('%Y-%m-%d 20:00')}\n"
-                        f"👉 活動連結：{tycs_url}")
+                        f"👉 活動連結：{event_url}")
             send_to_all_users(message)
             update_push_status(key, 'start')
 
@@ -48,7 +49,7 @@ def push_today_events():
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"報名截止：{reg_end.strftime('%Y-%m-%d 20:00')}\n"
-                       f"👉 活動連結：{tycs_url}")
+                       f"👉 活動連結：{event_url}")
             #send_to_all_users(message)
             update_push_status(key, 'end')
 
@@ -58,7 +59,7 @@ def push_today_events():
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"取消截止：{cancel_end.strftime('%Y-%m-%d 20:00')}\n"
-                       f"👉 活動連結：{tycs_url}")
+                       f"👉 活動連結：{event_url}")
             send_to_all_users(message)
             update_push_status(key, 'cancel')
 
