@@ -66,6 +66,7 @@ def append_event_if_not_exists(event_list):
     for event in event_list:   
         # 取出事件名稱跟出發時間（去掉前面的標籤）
         title = event['name']
+        event_url = event['event_url']
         start_date = event['date_event'].replace('出發時間 : ', '').strip()
         start_date_val = datetime.strptime(start_date, "%Y/%m/%d").date()
 
@@ -97,7 +98,8 @@ def append_event_if_not_exists(event_list):
                 reg_start,
                 reg_end,
                 cancel_end,
-                "","" # pushed_start, pushed_end
+                "","" ,# pushed_start, pushed_end
+                event_url
             ])
             existing_keys.add(key) 
     print(f"共新增 {len(existing_keys)} 個活動")
@@ -119,8 +121,8 @@ def get_all_events():
             "cancel_end": r["cancel_end"],
             # pushed_start, pushed_end 會是空字串或時間字串
             "pushed_start": r["pushed_start"],
-            "pushed_end": r["pushed_end"]
-            #"link": r["link"]
+            "pushed_end": r["pushed_end"],
+            "event_url": r["event_url"]
         })
     return result
 
