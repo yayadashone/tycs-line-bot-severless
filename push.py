@@ -22,7 +22,10 @@ def push_today_events():
     for row in events:
         title = row["title"]
         key = row["key"]
+
+
         event_url = tycs_url+row["event_url"]
+
 
         #str to datetime
         start_date = datetime.strptime(row["start_date"], "%Y/%m/%d").date()
@@ -38,7 +41,9 @@ def push_today_events():
                         f"活動：{title}\n"
                         f"出發日期：{start_date}\n"
                         f"報名起始：{reg_start.strftime('%Y-%m-%d 20:00')}\n"
+
                         f"👉 活動連結：{event_url}")
+
             send_to_all_users(message)
             update_push_status(key, 'start')
 
@@ -49,8 +54,10 @@ def push_today_events():
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"報名截止：{reg_end.strftime('%Y-%m-%d 20:00')}\n"
+
                        f"👉 活動連結：{event_url}")
             #send_to_all_users(message)
+
             update_push_status(key, 'end')
 
         # 推播：取消截止前 1 小時
@@ -59,7 +66,9 @@ def push_today_events():
                        f"活動：{title}\n"
                        f"出發日期：{start_date}\n"
                        f"取消截止：{cancel_end.strftime('%Y-%m-%d 20:00')}\n"
+
                        f"👉 活動連結：{event_url}")
+
             send_to_all_users(message)
             update_push_status(key, 'cancel')
 
