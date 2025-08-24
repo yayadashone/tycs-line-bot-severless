@@ -103,7 +103,7 @@ def append_event_if_not_exists(event_list):
                 reg_end,
                 cancel_end,
                 "","", # pushed_start, pushed_end
-                link
+                event_url
             ])
             existing_keys.add(key) 
     print(f"共新增 {len(existing_keys)} 個活動")
