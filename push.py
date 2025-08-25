@@ -25,6 +25,7 @@ def push_today_events():
 
 
         event_url = tycs_url+row["event_url"]
+        print(f"檢查活動：{title} - {event_url}")
 
 
         #str to datetime
