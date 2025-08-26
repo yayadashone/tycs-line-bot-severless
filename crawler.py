@@ -36,7 +36,7 @@ def crawl_events(pages=5):
                 date_apply = event.find_element(By.CLASS_NAME, 'date-apply').text.strip().replace('\n', ' ')
                 date_cancel = event.find_element(By.CLASS_NAME, 'date-cancel').text.strip()
 
-                event_url = event.find_element(By.CSS_SELECTOR, 'event-info a').get_attribute('href')
+                event_url = event.find_element(By.CSS_SELECTOR, '.event-info a').get_attribute('href')
                 print(f"活動名稱: {name}, 活動日期: {date_event}, 報名日期: {date_apply}, 取消日期: {date_cancel}, 活動網址: {event_url}")
 
 
