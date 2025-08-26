@@ -27,6 +27,7 @@ def crawl_events(pages=5):
 
         # 取得所有活動 li 元素
         events = driver.find_elements(By.CSS_SELECTOR, 'ul.event-list li')
+        print(events)
 
         for event in events:
             try:
