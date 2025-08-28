@@ -103,6 +103,7 @@ def append_event_if_not_exists(event_list):
                 reg_end,
                 cancel_end,
                 "","", # pushed_start, pushed_end
+                "", # pushed_cancel
                 event_url
             ])
             existing_keys.add(key) 
