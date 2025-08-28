@@ -127,6 +127,7 @@ def get_all_events():
             # pushed_start, pushed_end 會是空字串或時間字串
             "pushed_start": r["pushed_start"],
             "pushed_end": r["pushed_end"],
+            "pushed_cancel": r["pushed_cancel"],
             "event_url": r["event_url"]
         })
     return result
