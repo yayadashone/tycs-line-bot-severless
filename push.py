@@ -23,9 +23,15 @@ def push_today_events():
         title = row["title"]
         key = row["key"]
 
+        if not row["event_url"]:
+            event_url = tycs_url
+        else:
+            event_url = row["event_url"]
+            print(f"檢查活動link:{title} - {event_url}")
 
-        event_url = tycs_url+row["event_url"]
-        print(f"檢查活動：{title} - {event_url}")
+
+        #event_url = tycs_url+row["event_url"]
+        #print(f"檢查活動：{title} - {event_url}")
 
 
         #str to datetime
