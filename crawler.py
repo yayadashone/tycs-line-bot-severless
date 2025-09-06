@@ -17,7 +17,7 @@ def crawl_events(pages=5):
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     driver.get('https://www.tycs.com.tw/EventList')
     # 等待活動列表出現
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 3).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, 'ul.event-list li'))
     )
     time.sleep(3)
@@ -43,7 +43,7 @@ def crawl_events(pages=5):
                 date_apply = event.find_element(By.CLASS_NAME, 'date-apply').text.strip().replace('\n', ' ')
                 date_cancel = event.find_element(By.CLASS_NAME, 'date-cancel').text.strip()
 
-                event_url = event.find_element(By.CSS_SELECTOR, 'a.btn-event.btn-apply').get_attribute('href')
+                event_url = event.find_element(By.CSS_SELECTOR, '.event-info > a').get_attribute('href')
                
                 print(f"活動名稱: {name}, 活動日期: {date_event}, 報名日期: {date_apply}, 取消日期: {date_cancel}, 活動網址: {event_url}")
 
