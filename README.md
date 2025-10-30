@@ -1,6 +1,6 @@
 # TYCS Line Bot 自動推播服務
 
-# tycs-line-bot-severless
+# tycs-line-bot-severless 
 
 本專案為一個以 LINE Bot + Google Sheets 為後端的登山活動自動推播工具。每天自動爬取 TYCS 活動網 的活動資訊，並根據報名起始、截止與取消截止時間，自動推送提醒訊息給訂閱者。
 
