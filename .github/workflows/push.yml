@@ -7,7 +7,6 @@ on:
 
 jobs:
   push-job:
-    if: github.event.schedule == '0 10 * * *'
     name: Run Push
     runs-on: ubuntu-latest
     steps:
