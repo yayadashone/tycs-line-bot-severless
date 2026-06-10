@@ -2,7 +2,7 @@ name: Run Selenium Crawler with WebDriver Manager
 
 on:
   schedule:
-    - cron: '0 8 * * *' # 每天台灣時間 16:00  (UTC+8)
+    - cron: '0 5 * * *' # 每天台灣時間 13:00  (UTC+8)
   workflow_dispatch:
 
 jobs:
